@@ -28,14 +28,10 @@
                                 <xsl:apply-templates select="Document/Dates/*"/>
                                 <br/>
                             </div>
-
                             <xsl:apply-templates select="/Document/Bank"/>
-
                         </div>
-
-
+                        
                         <div class="right upanel-child">
-
                             <xsl:apply-templates select="Document/Supplier"/>
                             <xsl:apply-templates select="Document/Customer"/>
                         </div>
@@ -205,22 +201,33 @@
         <div class="bottom-border">
             <br/>
             <p>
-                <b>Odberateľ s.r.o.</b>
+                <b><xsl:value-of select="./CompanyName"/></b>
             </p>
-            <p>Nejaká ulica 12</p>
             <p>
-                <b>965 04 Trenčín</b>
+                <xsl:value-of select="./Address/Street"/>
+                <xsl:text> </xsl:text>
+                <xsl:value-of select="./Address/Number"/>
+            </p>
+            <p>
+                <b>
+                    <xsl:value-of select="./Address/Zip"/>
+                    <xsl:text> </xsl:text>
+                    <xsl:value-of select="./Address/City"/>
+                </b>
             </p>
             <br/>
         </div>
         <div class="bottom-border">
             <p>
-                <b>IČO : 98725845 IČ DPH :SK 2098725845</b>
+                <b>IČO: <xsl:value-of select="./ICO"/>
+                    <xsl:text>&#160;&#160;&#160;</xsl:text>
+                    IČ DPH: <xsl:value-of select="./ICDPH"/>
+                </b>
             </p>
         </div>
         <div class="bottom-border">
             <p>
-                <b>DIČ : 2098725845</b>
+                <b>DIČ: <xsl:value-of select="./DIC"/></b>
             </p>
         </div>
     </xsl:template>
