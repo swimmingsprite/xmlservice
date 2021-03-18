@@ -2,7 +2,12 @@
 <xsl:stylesheet version="1.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:template match="/">
-        <html>
+        <html lang="en">
+            <head>
+                <meta charset="UTF-8"/>
+                <title>Faktúra</title>
+                <link rel="stylesheet" type="text/css" href="style.css"/>
+            </head>
             <body>
                 <div class="root">
                     <div class="upper-panel">
@@ -16,32 +21,12 @@
                                 </xsl:if>
                             </div>
                             <div class="dates">
-                                <p>
-                                    <span>Dátum dodania služby:</span>
-                                    <span class="date-span">21.10.2020</span>
-                                </p>
-                                <p>
-                                    <span>Dátum vystavenia:</span>
-                                    <span class="date-span">21.10.2020</span>
-                                </p>
-                                <p>
-                                    <span>Dátum splatnosti:</span>
-                                    <span class="date-span">21.10.2020</span>
-                                </p>
+                                <xsl:apply-templates select="Document/Dates/*"/>
                                 <br/>
                             </div>
-                            <div>
-                                <p>Forma úhrady: Bankový prevod</p>
-                                <p>KS: 308</p>
-                                <p>VS: 12345 /č.fakt</p>
-                                <br/>
-                            </div>
-                            <p>
-                                <b>Banka: Tatra Banka</b>
-                            </p>
-                            <p>
-                                <b>Číslo účtu: SK45 1100 0000 0026 1234 5678</b>
-                            </p>
+
+                            <xsl:apply-templates select="/Document/Bank"/>
+
                         </div>
 
 
@@ -162,4 +147,53 @@
         </html>
 
     </xsl:template>
+
+    <xsl:template match="Document/Dates/*">
+        <xsl:if test="name(.) = 'Delivery'">
+            <p>
+                <span>Dátum dodania služby:</span>
+                <span class="date-span">
+                    <xsl:value-of select="./Date"/>
+                </span>
+            </p>
+        </xsl:if>
+
+        <xsl:if test="name(.) = 'Invoice'">
+            <p>
+                <span>Dátum vystavenia:</span>
+                <span class="date-span">
+                    <xsl:value-of select="./Date"/>
+                </span>
+            </p>
+        </xsl:if>
+
+        <xsl:if test="name(.) = 'Due'">
+            <p>
+                <span>Dátum splatnosti:</span>
+                <span class="date-span">
+                    <xsl:value-of select="./Date"/>
+                </span>
+            </p>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="/Document/Bank">
+        <div>
+            <p>Forma úhrady:
+                <xsl:if test="./Form = 'Bank Transfer'">
+                    Bankový prevod
+                </xsl:if>
+            </p>
+            <p>KS: <xsl:value-of select="./KS"/></p>
+            <p>VS: <xsl:value-of select="./VS"/></p>
+            <br/>
+        </div>
+        <p>
+            <b>Banka: <xsl:value-of select="./BankName"/></b>
+        </p>
+        <p>
+            <b>Číslo účtu: <xsl:value-of select="./IBAN"/></b>
+        </p>
+    </xsl:template>
+
 </xsl:stylesheet>
