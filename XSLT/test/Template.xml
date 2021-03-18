@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Document>
-    <GeneralType>Daňový doklad</GeneralType>
-    <Type>Faktúra</Type>
+    <GeneralType>Tax document</GeneralType>
+    <Type>Invoice</Type>
     <Number>123456</Number>
-    <MonthAndYear>Apríl 2020</MonthAndYear>
+    <MonthAndYear>April 2020</MonthAndYear>
+    <IsTaxPayer>true</IsTaxPayer>
+    <GeneratedBy>Zamestnanec</GeneratedBy>
 
     <Dates>
         <Delivery>
+            <Title>Delivery Date</Title>
             <Date>21.10.2020</Date>
         </Delivery>
 
         <Invoice>
-            <Title>Dátum vystavenia</Title>
+            <Title>Invoice Date</Title>
             <Date>21.10.2020</Date>
         </Invoice>
 
         <Due>
-            <Title>Dátum splatnosti</Title>
+            <Title>Due Date</Title>
             <Date>21.10.2020</Date>
         </Due>
     </Dates>
 
     <Bank>
-        <Form>Bankový prevod</Form>
+        <Form>Bank Transfer</Form>
         <KS>308</KS>
         <VS>12345</VS>
         <BankName>Tatra Banka</BankName>
@@ -53,6 +56,14 @@
         <ICDPH>SK2098725845</ICDPH>
         <DIC>98725845</DIC>
     </Customer>
+
+    <Price>
+        <Base>4000</Base>
+        <TaxRate>20</TaxRate>
+        <Currency>EUR</Currency>
+        <Total>4825.85</Total>
+        <ToPay>4825.85</ToPay>
+    </Price>
 
 
 
