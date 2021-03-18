@@ -5,20 +5,27 @@
     <Number>123456</Number>
 
     <Dates>
-        <Item>
-            <Title>Dátum dodania služby</Title>
+        <Delivery>
             <Date>21.10.2020</Date>
-        </Item>
+        </Delivery>
 
-        <Item>
+        <Invoice>
             <Title>Dátum vystavenia</Title>
             <Date>21.10.2020</Date>
-        </Item>
+        </Invoice>
 
-        <Item>
+        <Due>
             <Title>Dátum splatnosti</Title>
             <Date>21.10.2020</Date>
-        </Item>
+        </Due>
     </Dates>
+
+    <Bank>
+        <Form>Bankový prevod</Form>
+        <KS>308</KS>
+        <VS>12345</VS>
+        <BankName>Tatra Banka</BankName>
+        <IBAN>SK45 1100 0000 0026 1234 5678</IBAN>
+    </Bank>
 
 </Document>
