@@ -30,7 +30,7 @@
                             </div>
                             <xsl:apply-templates select="/Document/Bank"/>
                         </div>
-                        
+
                         <div class="right upanel-child">
                             <xsl:apply-templates select="Document/Supplier"/>
                             <xsl:apply-templates select="Document/Customer"/>
@@ -42,7 +42,10 @@
                             <br/>
                             <br/>
                             <span>
-                                <b>čiastku 4825,85 EUR</b>
+                                <b>čiastku
+                                    <xsl:value-of select="translate(/Document/Price/Total, '.', ',')"/>
+                                    &#160;<xsl:value-of select="/Document/Price/Currency"/>
+                                </b>
                             </span>
                         </p>
                     </div>
@@ -50,7 +53,10 @@
                     <div class="bottom_panel">
                         <div class="bottom-left">
                             <div class="tax-payer bottom-border">
-                                <p>Platca DPH</p>
+                                <xsl:choose>
+                                    <xsl:when test="/Document/IsTaxPayer"><p>Platca DPH</p></xsl:when>
+                                    <xsl:otherwise><p>Nie sme platci DPH</p></xsl:otherwise>
+                                </xsl:choose>
                             </div>
                             <div class="bottom-border">
                                 <p>Faktúru vystavil: Zamestnanec</p>
@@ -58,8 +64,6 @@
                             <div class="signature">
                                 <p>Pečiatka a podpis:</p>
                             </div>
-
-
                         </div>
 
 
