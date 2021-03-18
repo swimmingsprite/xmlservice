@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Document>
-    
+    <GeneralType>Daňový doklad</GeneralType>
+    <Type>Faktúra</Type>
+    <Number>123456</Number>
+
+    <Dates>
+        <Item>
+            <Title>Dátum dodania služby</Title>
+            <Date>21.10.2020</Date>
+        </Item>
+
+        <Item>
+            <Title>Dátum vystavenia</Title>
+            <Date>21.10.2020</Date>
+        </Item>
+
+        <Item>
+            <Title>Dátum splatnosti</Title>
+            <Date>21.10.2020</Date>
+        </Item>
+    </Dates>
+
 </Document>
