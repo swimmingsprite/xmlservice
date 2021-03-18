@@ -3,6 +3,7 @@
     <GeneralType>Daňový doklad</GeneralType>
     <Type>Faktúra</Type>
     <Number>123456</Number>
+    <MonthAndYear>Apríl 2020</MonthAndYear>
 
     <Dates>
         <Delivery>
@@ -27,5 +28,32 @@
         <BankName>Tatra Banka</BankName>
         <IBAN>SK45 1100 0000 0026 1234 5678</IBAN>
     </Bank>
+
+    <Supplier>
+        <CompanyName>Firma s.r.o.</CompanyName>
+        <Address>
+            <Street>Uličná</Street>
+            <Number>18/7654</Number>
+            <Zip>083 12</Zip>
+            <City>Bratislava</City>
+        </Address>
+        <ICDPH>SK2045123456</ICDPH>
+        <DIC>2045123456</DIC>
+    </Supplier>
+
+    <Customer>
+        <CompanyName>Odberateľ s.r.o.</CompanyName>
+        <Address>
+            <Street>Nejaká ulica</Street>
+            <Number>12</Number>
+            <Zip>965 04</Zip>
+            <City>Trenčín</City>
+        </Address>
+        <ICO>98725845</ICO>
+        <ICDPH>SK2098725845</ICDPH>
+        <DIC>98725845</DIC>
+    </Customer>
+
+
 
 </Document>
