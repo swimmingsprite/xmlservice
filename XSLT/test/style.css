@@ -7,10 +7,9 @@ body, html {
     border: 2px solid black;
     margin: 2% 2%;
     position: relative;
-    height: fit-content;
     overflow: hidden;
     max-width: 850px;
-    min-width: 250px;
+    min-width: 478px;
 }
 .low-margin {
     margin-bottom: 0;
@@ -35,8 +34,6 @@ body, html {
 }
 
 .upanel-child {
-    /*position: absolute;*/
-    /*border-bottom: 2px solid black ;*/
     width: 49.9%;
 }
 
@@ -64,4 +61,54 @@ p {
 
 .sup-address {
     text-align: center;
+}
+
+.middle-panel {
+    margin-top: 100px;
+    margin-bottom: 200px;
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.middle-panel p {
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.tax-payer {
+    margin-top: 5px;
+}
+
+.bottom-right {
+    position: absolute;
+    display: inline-block;
+    border-left: 1px solid black;
+    width: 49.9%;
+}
+
+.bottom-left {
+    position: relative;
+    /*float: left;*/
+    display: inline-block;
+    border-right: 1px solid black;
+    width: 49.9%;
+}
+
+.bottom-left p {
+    margin: 0;
+}
+
+.bottom_panel {
+    display: block;
+    position: relative;
+    width: 100%;
+}
+
+.signature {
+    padding-top: 90px;
+}
+
+.bottom-right:nth-of-type(2) {
+    border-top: 2px solid black;
 }
