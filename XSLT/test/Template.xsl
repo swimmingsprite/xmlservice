@@ -38,7 +38,9 @@
                     </div>
 
                     <div class="middle-panel">
-                        <p>Fakturujem Vám za služby v mesiaci Apríl 2020 podľa príloh
+                        <p>Fakturujem Vám za služby v mesiaci
+                            <xsl:apply-templates select="/Document/MonthAndYear"/>
+                            podľa príloh
                             <br/>
                             <br/>
                             <span>
@@ -59,7 +61,7 @@
                                 </xsl:choose>
                             </div>
                             <div class="bottom-border">
-                                <p>Faktúru vystavil: Zamestnanec</p>
+                                <p>Faktúru vystavil: <xsl:value-of select="/Document/GeneratedBy"/></p>
                             </div>
                             <div class="signature">
                                 <p>Pečiatka a podpis:</p>
@@ -234,6 +236,51 @@
                 <b>DIČ: <xsl:value-of select="./DIC"/></b>
             </p>
         </div>
+    </xsl:template>
+
+    <xsl:template match="/Document/MonthAndYear">
+        <xsl:variable name="subst">
+            <xsl:value-of select="substring-before(/Document/MonthAndYear, '/')"/>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="$subst = '1'">
+                Január <xsl:value-of select="substring-after(/Document/MonthAndYear, '/')"/>
+            </xsl:when>
+            <xsl:when test="substring-before(/Document/MonthAndYear, '/') = '2'">
+                Február <xsl:value-of select="substring-after(/Document/MonthAndYear, '/')"/>
+            </xsl:when>
+            <xsl:when test="substring-before(/Document/MonthAndYear, '/') = '3'">
+                Marec <xsl:value-of select="substring-after(/Document/MonthAndYear, '/')"/>
+            </xsl:when>
+            <xsl:when test="substring-before(/Document/MonthAndYear, '/') = '4'">
+                Apríl <xsl:value-of select="substring-after(/Document/MonthAndYear, '/')"/>
+            </xsl:when>
+            <xsl:when test="substring-before(/Document/MonthAndYear, '/') = '5'">
+                Máj <xsl:value-of select="substring-after(/Document/MonthAndYear, '/')"/>
+            </xsl:when>
+            <xsl:when test="substring-before(/Document/MonthAndYear, '/') = '6'">
+                Jún <xsl:value-of select="substring-after(/Document/MonthAndYear, '/')"/>
+            </xsl:when>
+            <xsl:when test="substring-before(/Document/MonthAndYear, '/') = '7'">
+                Júl <xsl:value-of select="substring-after(/Document/MonthAndYear, '/')"/>
+            </xsl:when>
+            <xsl:when test="substring-before(/Document/MonthAndYear, '/') = '8'">
+                August <xsl:value-of select="substring-after(/Document/MonthAndYear, '/')"/>
+            </xsl:when>
+            <xsl:when test="substring-before(/Document/MonthAndYear, '/') = '9'">
+                September <xsl:value-of select="substring-after(/Document/MonthAndYear, '/')"/>
+            </xsl:when>
+            <xsl:when test="substring-before(/Document/MonthAndYear, '/') = '10'">
+                Október <xsl:value-of select="substring-after(/Document/MonthAndYear, '/')"/>
+            </xsl:when>
+            <xsl:when test="substring-before(/Document/MonthAndYear, '/') = '11'">
+                November <xsl:value-of select="substring-after(/Document/MonthAndYear, '/')"/>
+            </xsl:when>
+            <xsl:when test="substring-before(/Document/MonthAndYear, '/') = '12'">
+                December <xsl:value-of select="substring-after(/Document/MonthAndYear, '/')"/>
+            </xsl:when>
+        </xsl:choose>
+        <xsl:value-of select="/Document/MonthAndYear"/>
     </xsl:template>
 
 

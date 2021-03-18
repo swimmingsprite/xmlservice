@@ -3,7 +3,7 @@
     <GeneralType>Tax document</GeneralType>
     <Type>Invoice</Type>
     <Number>123456</Number>
-    <MonthAndYear>April 2020</MonthAndYear>
+    <MonthAndYear>4/2020</MonthAndYear>
     <IsTaxPayer>true</IsTaxPayer>
     <GeneratedBy>Zamestnanec</GeneratedBy>
 
