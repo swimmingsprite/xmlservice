@@ -14,10 +14,14 @@
                         <div class="left upanel-child bottom-border">
                             <div class="bottom-border">
                                 <xsl:if test="/Document/GeneralType = 'Tax document'">
-                                    <p><b>Daňový doklad</b></p>
+                                    <p>
+                                        <b>Daňový doklad</b>
+                                    </p>
                                 </xsl:if>
                                 <xsl:if test="/Document/Type = 'Invoice'">
-                                    <h3 class="low-margin">Faktúra č. <xsl:value-of select="/Document/Number"/></h3>
+                                    <h3 class="low-margin">Faktúra č.
+                                        <xsl:value-of select="/Document/Number"/>
+                                    </h3>
                                 </xsl:if>
                             </div>
                             <div class="dates">
@@ -31,49 +35,9 @@
 
 
                         <div class="right upanel-child">
-                            <div class="name">
-                                <b>Dodávateľ:</b>
-                            </div>
-                            <div class="bottom-border">
-                                <p class="sup-address">
-                                    Firma s.r.o.
-                                    <br/>
-                                    Uličná 18/7654
-                                    <br/>
-                                    083 12 Bratislava
-                                </p>
-                                <br/>
-                                <p>
-                                    <b>IČ DPH: SK2045123456</b>
-                                </p>
-                                <p>
-                                    <b>DIČ: 2045123456</b>
-                                </p>
-                            </div>
-                            <div class="name">
-                                <b>Odberateľ:</b>
-                            </div>
-                            <div class="bottom-border">
-                                <br/>
-                                <p>
-                                    <b>Odberateľ s.r.o.</b>
-                                </p>
-                                <p>Nejaká ulica 12</p>
-                                <p>
-                                    <b>965 04 Trenčín</b>
-                                </p>
-                                <br/>
-                            </div>
-                            <div class="bottom-border">
-                                <p>
-                                    <b>IČO : 98725845 IČ DPH :SK 2098725845</b>
-                                </p>
-                            </div>
-                            <div class="bottom-border">
-                                <p>
-                                    <b>DIČ : 2098725845</b>
-                                </p>
-                            </div>
+
+                            <xsl:apply-templates select="Document/Supplier"/>
+                            <xsl:apply-templates select="Document/Customer"/>
                         </div>
                     </div>
 
@@ -184,16 +148,82 @@
                     Bankový prevod
                 </xsl:if>
             </p>
-            <p>KS: <xsl:value-of select="./KS"/></p>
-            <p>VS: <xsl:value-of select="./VS"/></p>
+            <p>KS:
+                <xsl:value-of select="./KS"/>
+            </p>
+            <p>VS:
+                <xsl:value-of select="./VS"/>
+            </p>
             <br/>
         </div>
         <p>
-            <b>Banka: <xsl:value-of select="./BankName"/></b>
+            <b>Banka:
+                <xsl:value-of select="./BankName"/>
+            </b>
         </p>
         <p>
-            <b>Číslo účtu: <xsl:value-of select="./IBAN"/></b>
+            <b>Číslo účtu:
+                <xsl:value-of select="./IBAN"/>
+            </b>
         </p>
     </xsl:template>
+
+    <xsl:template match="/Document/Supplier">
+        <div class="name">
+            <b>Dodávateľ:</b>
+        </div>
+        <div class="bottom-border">
+            <p class="sup-address">
+                <xsl:value-of select="./CompanyName"/>
+                <br/>
+                <xsl:value-of select="./Address/Street"/>
+                <xsl:text> </xsl:text>
+                <xsl:value-of select="./Address/Number"/>
+                <br/>
+                <xsl:value-of select="./Address/Zip"/>
+                <xsl:text> </xsl:text>
+                <xsl:value-of select="./Address/City"/>
+            </p>
+            <br/>
+            <p>
+                <b>IČ DPH:
+                    <xsl:value-of select="./ICDPH"/>
+                </b>
+            </p>
+            <p>
+                <b>DIČ:
+                    <xsl:value-of select="./DIC"/>
+                </b>
+            </p>
+        </div>
+    </xsl:template>
+
+    <xsl:template match="/Document/Customer">
+        <div class="name">
+            <b>Odberateľ:</b>
+        </div>
+        <div class="bottom-border">
+            <br/>
+            <p>
+                <b>Odberateľ s.r.o.</b>
+            </p>
+            <p>Nejaká ulica 12</p>
+            <p>
+                <b>965 04 Trenčín</b>
+            </p>
+            <br/>
+        </div>
+        <div class="bottom-border">
+            <p>
+                <b>IČO : 98725845 IČ DPH :SK 2098725845</b>
+            </p>
+        </div>
+        <div class="bottom-border">
+            <p>
+                <b>DIČ : 2098725845</b>
+            </p>
+        </div>
+    </xsl:template>
+
 
 </xsl:stylesheet>
