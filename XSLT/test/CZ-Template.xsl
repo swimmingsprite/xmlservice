@@ -18,7 +18,7 @@
         <html lang="en">
             <head>
                 <meta charset="UTF-8"/>
-                <title>Faktúra</title>
+                <title>Faktura</title>
                 <link rel="stylesheet" type="text/css" href="style.css"/>
             </head>
             <body>
