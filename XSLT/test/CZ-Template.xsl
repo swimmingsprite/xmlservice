@@ -188,7 +188,7 @@
                 <xsl:value-of select="./KS"/>
             </p>
             <p>VS:
-                <xsl:value-of select="./VS"/>
+                <xsl:value-of select="../Number"/>
             </p>
             <br/>
         </div>

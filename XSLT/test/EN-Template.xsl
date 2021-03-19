@@ -33,7 +33,7 @@
                                 </p>
 
                                 <h3 class="low-margin">
-                                    <xsl:value-of select="/Document/Type"/> num.
+                                    <xsl:value-of select="/Document/Type"/> num.:
                                      <xsl:value-of select="/Document/Number"/>
                                     </h3>
                             </div>
@@ -52,8 +52,7 @@
 
                     <div class="middle-panel">
                         <p>In the month of
-                            <xsl:apply-templates select="/Document/MonthAndYear"/>
-                            , we will invoice you
+                            <xsl:apply-templates select="/Document/MonthAndYear"/>, we will invoice you
                             <br/>
                             <br/>
                             <span>
@@ -184,7 +183,7 @@
                 <xsl:value-of select="./KS"/>
             </p>
             <p>VS:
-                <xsl:value-of select="./VS"/>
+                <xsl:value-of select="../Number"/>
             </p>
             <br/>
         </div>
