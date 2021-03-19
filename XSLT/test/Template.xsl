@@ -2,6 +2,19 @@
 <xsl:stylesheet version="1.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:template match="/">
+
+        <xsl:variable name="tax">
+            <xsl:value-of select="((/Document/Price/Base div 100 * /Document/Price/TaxRate) *100 div 100)"/>
+        </xsl:variable>
+
+        <xsl:variable name="total">
+            <xsl:value-of select="/Document/Price/Base + $tax"/>
+        </xsl:variable>
+
+        <xsl:variable name="curr">
+            <xsl:value-of select="/Document/Price/Currency"/>
+        </xsl:variable>
+
         <html lang="en">
             <head>
                 <meta charset="UTF-8"/>
@@ -45,8 +58,8 @@
                             <br/>
                             <span>
                                 <b>čiastku
-                                    <xsl:value-of select="translate(/Document/Price/Total, '.', ',')"/>
-                                    &#160;<xsl:value-of select="/Document/Price/Currency"/>
+                                    <xsl:value-of select="translate($total, '.', ',')"/>
+                                    &#160;<xsl:value-of select="$curr"/>
                                 </b>
                             </span>
                         </p>
@@ -74,9 +87,7 @@
                             </div>
                         </div>
 
-                        <xsl:variable name="curr">
-                            <xsl:value-of select="/Document/Price/Currency"/>
-                        </xsl:variable>
+
                         <div class="bottom-right">
                             <div class="bottom-border">
                                 <p>
@@ -89,13 +100,14 @@
                                 </p>
                                 <br/>
                             </div>
+
+
                             <div class="bottom-border">
                                 <p>
                                     <b>DPH 20%:
                                         <span class="date-span">
                                             <xsl:value-of select="translate(concat(
-                                            ((/Document/Price/Base div 100 * /Document/Price/TaxRate)
-                                            *100 div 100)
+                                            $tax
                                             , ' ', $curr), '.', ',')"/>
                                         </span>
                                     </b>
@@ -107,7 +119,7 @@
                                     <b>Cena vrátane DPH:
                                         <span class="date-span">
                                             <xsl:value-of select="
-                                        translate(concat(/Document/Price/Total, ' ', $curr), '.', ',')"/>
+                                        translate(concat($total, ' ', $curr), '.', ',')"/>
                                         </span>
                                     </b>
                                 </p>
@@ -118,7 +130,7 @@
                                     <b>Čiastka k úhrade:
                                         <span class="date-span">
                                             <xsl:value-of select="
-                                        translate(concat(/Document/Price/Total, ' ', $curr), '.', ',')"/>
+                                        translate(concat($total, ' ', $curr), '.', ',')"/>
                                         </span>
                                     </b>
                                 </p>
