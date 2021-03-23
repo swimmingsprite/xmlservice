@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.example.com/Invoice"
+           xmlns="http://www.example.com/Invoice">
+    
+    <xs:simpleType name="GeneralType">
+        <xs:restriction base="xs:normalizedString"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="Type">
+        <xs:restriction base="xs:normalizedString"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="Number">
+        <xs:restriction base="xs:positiveInteger"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="MonthAndYear">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d{1}/\d{4}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="IsTaxPayer">
+        <xs:restriction base="xs:boolean"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="GeneratedBy">
+        <xs:restriction base="xs:normalizedString"/>
+    </xs:simpleType>
+    
+    
+    <!--
+    <Dates>
+        <Delivery>
+            <Title>Delivery Date</Title>
+            <Date>21.10.2020</Date>
+        </Delivery>
+
+        <Invoice>
+            <Title>Invoice Date</Title>
+            <Date>21.10.2020</Date>
+        </Invoice>
+
+        <Due>
+            <Title>Due Date</Title>
+            <Date>21.10.2020</Date>
+        </Due>
+    </Dates>
+    -->
+    <xs:complexType name="Date">
+        <xs:sequence>
+            <xs:element name="Title">
+                <xs:simpleType>
+                    <xs:restriction base="xs:normalizedString"/>
+                </xs:simpleType>
+            </xs:element>
+            
+            <xs:element name="Date">
+                <xs:simpleType>
+                    <xs:restriction base="xs:normalizedString">
+                        <xs:pattern value="([1-9]|[1-2][0-9]|3[0-1])\.([1-9]|1[0-2])\.(19[0-9][0-9]|2[0-9][0-9][0-9])"/>
+                    </xs:restriction>
+                </xs:simpleType>    
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="Dates">
+        <xs:all>
+            <xs:element name="Delivery" type="Date"/>
+            <xs:element name="Invoice" type="Date"/>
+            <xs:element name="Due" type="Date"/>
+        </xs:all>
+    </xs:complexType>
+    
+    
+    <xs:simpleType name="IBANType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="([A-Z]{2}\d{22})|([A-Z]{2}\d{2} \d{4} \d{4} \d{4} \d{4} \d{4})"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!--
+    <Bank>
+        <Form>Bank Transfer</Form>
+        <KS>308</KS>
+        <VS>12345</VS>
+        <BankName>Tatra Banka</BankName>
+        <IBAN>SK45 1100 0000 0026 1234 5678</IBAN>
+    </Bank>
+    -->
+
+    <xs:complexType name="Bank">
+        <xs:all>
+            <xs:element name="Form" type="xs:normalizedString"/>
+            <xs:element name="KS" type="xs:positiveInteger"/>
+            <xs:element name="VS" type="xs:positiveInteger"/>
+            <xs:element name="BankName" type="xs:normalizedString"/>
+            <xs:element name="IBAN" type="IBANType"/>
+        </xs:all>
+    </xs:complexType>
+    
+    
+    <!--
+    <Supplier>
+        <CompanyName>Firma s.r.o.</CompanyName>
+        <Address>
+            <Street>Uličná</Street>
+            <Number>18/7654</Number>
+            <Zip>083 12</Zip>
+            <City>Bratislava</City>
+        </Address>
+        <ICDPH>SK2045123456</ICDPH>
+        <DIC>2045123456</DIC>
+    </Supplier>
+    -->
+
+    <xs:complexType name="AddressType">
+        <xs:sequence>
+            <xs:element name="Street">
+                <xs:simpleType>
+                    <xs:restriction>
+                        <xs:pattern value="\p{Lu}\p{Ll}*"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="SupplierType">
+        <xs:all>
+            <xs:element name="CompanyName" type="xs:normalizedString"/>
+            <xs:element name="Address" type="AddressType"/>
+        </xs:all>
+    </xs:complexType>
+    
+
+    <xs:complexType name="DocumentType">
+        <xs:sequence>
+            <xs:element name="GeneralType" type="GeneralType"/>
+            <xs:element name="Type" type="Type"/>
+            <xs:element name="Number" type="Number"/>
+            <xs:element name="MonthAndYear" type="MonthAndYear"/>
+            <xs:element name="IsTaxPayer" type="IsTaxPayer"/>
+            <xs:element name="GeneratedBy" type="GeneratedBy"/>
+
+            <xs:element name="Dates" type="Dates"/>
+            <xs:element name="Bank" type="Bank"/>
+
+
+
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="Document" type="DocumentType"/>
+
+</xs:schema>
