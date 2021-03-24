@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "xml.resources.path",
+      "type": "java.lang.String",
+      "description": "Description for xml.resources.path."
+  }
+] }

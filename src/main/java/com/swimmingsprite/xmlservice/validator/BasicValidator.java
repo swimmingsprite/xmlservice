@@ -11,9 +11,12 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
-@Component
 public class BasicValidator implements Validator {
     private String xsdPath;
+
+    public BasicValidator(String xsdPath) {
+        this.xsdPath = xsdPath;
+    }
 
     @Override
     public boolean validate(String xml) {
