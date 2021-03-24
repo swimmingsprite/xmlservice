@@ -5,10 +5,9 @@
            xmlns="http://www.example.com/Invoice"
            elementFormDefault="qualified">
 
-
     <xs:simpleType name="MonthAndYearType">
-        <xs:restriction base="xs:string">
-            <xs:pattern value="^(1[0-2]|[1-9])\/\d{4}"/>
+        <xs:restriction base="xs:token">
+            <xs:pattern value="(1[0-2]|[1-9])\/\d{4}"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -66,7 +65,7 @@
             <xs:element name="Number">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
-                        <xs:pattern value="^(\d{1,3}\/\d{1,5})$|^(\d+|)$"/>
+                        <xs:pattern value="(^(\d{1,3}\/\d{1,5})$)|(^(\d+)$)"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -87,14 +86,14 @@
         <xs:all>
             <xs:element name="CompanyName" type="xs:token"/>
             <xs:element name="Address" type="AddressType"/>
-            <xs:element name="ICDPH">
+            <xs:element name="ICDPH" minOccurs="0">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:pattern value="\p{Lu}\p{Lu}\d{10}"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="DIC">
+            <xs:element name="DIC" minOccurs="0">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:pattern value="\d{10}"/>
