@@ -16,8 +16,10 @@ public class ValidatorFactory {
     private static String xmlStorage;
 
     private static Map<String, Validator> validators = new ConcurrentHashMap<>();
+
+    // TODO: 24. 3. 2021 fetch from file
     private static Map<String, String> xsdPaths = new ConcurrentHashMap<>(
-            Map.of("invoice", xmlStorage+"Invoice.xsd"));
+            Map.of("http://www.example.com/Invoice", xmlStorage+"Invoice.xsd"));
 
 
     /**

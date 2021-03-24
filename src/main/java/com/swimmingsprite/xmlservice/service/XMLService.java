@@ -18,17 +18,17 @@ import java.util.concurrent.ConcurrentHashMap;
 public class XMLService {
     private final ValidatorFactory validatorFactory;
     private final Parser parser;
-
-    private ApplicationContext context;
-
+    private final ApplicationContext context;
 
 
-    private Map<String, Class<?>> namespaceClasses = new ConcurrentHashMap<>(
+    // TODO: 24. 3. 2021 fetch from file
+    private final Map<String, Class<?>> namespaceClasses = new ConcurrentHashMap<>(
             Map.of("http://www.example.com/Invoice", DocumentType.class));
 
-    public XMLService(ValidatorFactory validatorFactory, Parser parser) {
+    public XMLService(ValidatorFactory validatorFactory, Parser parser, ApplicationContext context) {
         this.validatorFactory = validatorFactory;
         this.parser = parser;
+        this.context = context;
     }
 
     public void save(String xml) {
