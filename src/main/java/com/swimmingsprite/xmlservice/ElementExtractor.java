@@ -8,16 +8,27 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 
-public class NamespaceExtractor {
-    public static String getNamespace(String xml) {
+public class ElementExtractor {
+    private Element root;
+    private Document doc;
+
+    public ElementExtractor(String xml) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
-            Element root = doc.getDocumentElement();
-            return root.getAttribute("xmlns");
+            this.doc = builder.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+            this.root = this.doc.getDocumentElement();
         } catch (Exception e) {
-            return null;
+            this.root = null;
         }
     }
+
+    public Element getRootElement(String xml) {
+        return root;
+    }
+
+    public String getNamespace() {
+        return root.getAttribute("xmlns");
+    }
+
 }
