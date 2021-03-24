@@ -22,9 +22,13 @@ public class Controller {
             return ResponseEntity.ok().build();
         }
         catch (Exception e) {
-            e.printStackTrace();
+            printException(e);
             return ResponseEntity.status(500).build();
         }
+    }
+
+    private void printException(Exception e) {
+        System.err.println("Message: "+e.getMessage()+"\n"+"Cause: "+e.getCause());
     }
 
 

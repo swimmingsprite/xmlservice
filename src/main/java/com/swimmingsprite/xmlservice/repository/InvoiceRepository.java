@@ -14,6 +14,8 @@ public class InvoiceRepository implements GeneralRepository {
 
     @Override
     public void save(Object obj) {
-
+        DocumentType doc = (DocumentType) obj;
+        System.out.println(doc.getBank().getBankName());
+        System.out.println(doc.getCustomer().getCompanyName());
     }
 }

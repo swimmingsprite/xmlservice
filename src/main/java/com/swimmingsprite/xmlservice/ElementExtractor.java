@@ -23,7 +23,7 @@ public class ElementExtractor {
         }
     }
 
-    public Element getRootElement(String xml) {
+    public Element getRootElement() {
         return root;
     }
 

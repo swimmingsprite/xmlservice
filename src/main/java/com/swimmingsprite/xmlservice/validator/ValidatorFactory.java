@@ -44,10 +44,7 @@ public class ValidatorFactory {
         //check if validator with this type is in cache map
         if (validator == null) {
             //if not, check if it's valid type (xsd for docType exist) and create new Validator
-            System.out.println("doc: "+docType);
-            System.out.println("docToLowercase: "+docType.toLowerCase(Locale.ROOT));
             String xsdPath = xsdPaths.get(docType);
-            System.out.println("xsd path: "+xsdPath);
             if (xsdPath != null) {
                 Validator newValidator = new BasicValidator(xsdPath);
                 validators.put(docType, newValidator);

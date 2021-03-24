@@ -22,18 +22,14 @@ public final class BasicValidator implements Validator {
     @Override
     public boolean validate(String xml) {
         try {
-            System.out.println("xsd path is: "+xsdPath);
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            System.out.println(1);
             Schema schema = schemaFactory.newSchema(new File(xsdPath));
-            System.out.println();
             javax.xml.validation.Validator validator = schema.newValidator();
-            StreamResult result = new StreamResult(System.out);
-            validator.validate(new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8))), result);
+            validator.validate(new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8))));
             return true;
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             return false;
         }
     }
