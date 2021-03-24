@@ -20,6 +20,9 @@ public class ValidatorFactory {
             Map.of("invoice", xmlStorage+"Invoice.xsd"));
 
 
+    /**
+     * Guarantee to not be null.
+    * */
     public Validator getInstance(String docType) {
         Validator validator = getByType(docType);
         if (validator != null) return validator;
