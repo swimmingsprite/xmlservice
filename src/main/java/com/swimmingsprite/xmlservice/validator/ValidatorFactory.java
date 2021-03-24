@@ -1,7 +1,11 @@
 package com.swimmingsprite.xmlservice.validator;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.util.Locale;
@@ -13,14 +17,18 @@ import java.util.concurrent.ConcurrentHashMap;
 @Scope("singleton")
 public class ValidatorFactory {
     @Value("${xml.resources.path}")
-    private static String xmlStorage;
+    private String xmlStorage;
 
-    private static Map<String, Validator> validators = new ConcurrentHashMap<>();
+    private static final Map<String, Validator> validators = new ConcurrentHashMap<>();
 
     // TODO: 24. 3. 2021 fetch from file
-    private static Map<String, String> xsdPaths = new ConcurrentHashMap<>(
-            Map.of("http://www.example.com/Invoice", xmlStorage+"Invoice.xsd"));
+    private static final Map<String, String> xsdPaths = new ConcurrentHashMap<>();
 
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void putXSDPaths() {
+        xsdPaths.put("http://www.example.com/Invoice", xmlStorage+"Invoice.xsd");
+    }
 
     /**
      * Guarantee to not be null.
@@ -36,10 +44,13 @@ public class ValidatorFactory {
         //check if validator with this type is in cache map
         if (validator == null) {
             //if not, check if it's valid type (xsd for docType exist) and create new Validator
-            String xsdPath = xsdPaths.get(docType.toLowerCase(Locale.ROOT));
+            System.out.println("doc: "+docType);
+            System.out.println("docToLowercase: "+docType.toLowerCase(Locale.ROOT));
+            String xsdPath = xsdPaths.get(docType);
+            System.out.println("xsd path: "+xsdPath);
             if (xsdPath != null) {
                 Validator newValidator = new BasicValidator(xsdPath);
-                validators.put(docType.toLowerCase(Locale.ROOT), newValidator);
+                validators.put(docType, newValidator);
                 return newValidator;
             }
             return null;

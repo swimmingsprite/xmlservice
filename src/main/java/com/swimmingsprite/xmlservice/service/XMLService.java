@@ -33,14 +33,18 @@ public class XMLService {
 
     public void save(String xml) {
         String namespace = new ElementExtractor(xml).getNamespace();
+        System.out.println("namespace: "+namespace);
         if (namespace == null) throw new NoSuchElementException("Namespace not present.");
         Class<?> type = namespaceClasses.get(namespace);
+        System.out.println("type: "+type);
         if (type == null) throw new RuntimeException("There's no proper pojo class to map for "+namespace);
         Validator validator = validatorFactory.getInstance(namespace);
         if (validator.validate(xml)) {
+            System.out.println("validation ok...");
             Object object = parser.parse(xml, type);
             getRepository(type).save(object);
         }
+        System.out.println("validation failed...");
         throw new RuntimeException(String.format("XML with namespace %s is not valid.", namespace));
     }
 
