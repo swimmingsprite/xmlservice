@@ -11,8 +11,8 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
-public class BasicValidator implements Validator {
-    private String xsdPath;
+public final class BasicValidator implements Validator {
+    private final String xsdPath;
 
     public BasicValidator(String xsdPath) {
         this.xsdPath = xsdPath;

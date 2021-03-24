@@ -18,7 +18,7 @@ public class ValidatorFactory {
             Map.of("invoice", xmlStorage+"Invoice.xsd"));
 
 
-    public static Validator newInstance(String docType) {
+    public static Validator getInstance(String docType) {
         Validator validator = getByType(docType);
         if (validator != null) return validator;
         throw new NoSuchElementException(String.format("Validator for type %s can't be found.", docType));
@@ -28,7 +28,7 @@ public class ValidatorFactory {
         Validator validator = validators.get(docType);
         //check if validator with this type is in cache map
         if (validator == null) {
-            //if not, check if is valid type (xsd for this type exist) and create new Validator
+            //if not, check if it's valid type (xsd for docType exist) and create new Validator
             String xsdPath = xsdPaths.get(docType.toLowerCase(Locale.ROOT));
             if (xsdPath != null) {
                 Validator newValidator = new BasicValidator(xsdPath);
