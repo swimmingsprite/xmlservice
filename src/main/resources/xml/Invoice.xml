@@ -2,9 +2,7 @@
 <Document
         xmlns="http://www.example.com/Invoice"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.example.com/Invoice Invoice.xsd"
-
->
+        xsi:schemaLocation="http://www.example.com/Invoice Invoice.xsd">
     <GeneralType>Tax document</GeneralType>
     <Type>Invoice</Type>
     <Number>123456</Number>
@@ -53,7 +51,7 @@
         <CompanyName>Odberateľ s.r.o.</CompanyName>
         <Address>
             <Street>Nejaká ulica</Street>
-            <Number>122/55555</Number>
+            <Number>122/5555</Number>
             <Zip>965 04</Zip>
             <City>Trenčín</City>
         </Address>
@@ -63,11 +61,11 @@
     </Customer>
 
     <Price>
-        <Base>4666.6</Base>
+        <Base>5000.1234456</Base>
         <TaxRate>20</TaxRate>
         <Currency>EUR</Currency>
-        <Total>4825.85</Total>
-        <ToPay>4825.85</ToPay>
+        <Total>6000.14</Total>
+        <ToPay>6000.14</ToPay>
     </Price>
 
 

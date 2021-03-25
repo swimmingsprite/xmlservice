@@ -1,0 +1,286 @@
+<html lang="en" xmlns:iv="http://www.example.com/Invoice">
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
+        <title>Fakt&uacute;ra</title>
+        <style>
+                    body, html {
+                    box-sizing: border-box;
+                    position: relative;
+                    }
+
+                    .root {
+                    border: 2px solid black;
+                    margin: 2% 2%;
+                    position: relative;
+                    overflow: hidden;
+                    max-width: 850px;
+                    min-width: 478px;
+                    }
+                    .low-margin {
+                    margin-bottom: 0;
+                    margin-top: 5px;
+                    }
+
+                    .upper-panel {
+                    position: relative;
+                    display: block;
+                    width: 100%;
+                    }
+
+                    .left {
+                    display: inline-block;
+                    border-right: 1px solid black;
+                    }
+
+                    .right {
+                    position: absolute;
+                    display: inline-block;
+                    border-left: 1px solid black;
+                    }
+
+                    .upanel-child {
+                    width: 49.9%;
+                    }
+
+                    .name {
+                    top: 0;
+                    border-bottom: 2px solid black;
+                    padding-left: 5px;
+                    }
+
+                    .bottom-border {
+                    border-bottom: 2px solid black;
+                    }
+
+                    .bottom-border h3 {
+                    padding-left: 5px;
+                    }
+
+                    p {
+                    margin: 0;
+                    padding-left: 5px;
+                    }
+
+                    .date-span {
+                    right: 5%;
+                    position: absolute;
+                    }
+
+                    .dates {
+                    position: relative;
+                    }
+
+                    .sup-address {
+                    text-align: center;
+                    }
+
+                    .middle-panel {
+                    margin-top: 100px;
+                    margin-bottom: 200px;
+                    position: relative;
+                    display: block;
+                    width: 100%;
+                    }
+
+                    .middle-panel p {
+                    text-align: center;
+                    font-size: 1.1rem;
+                    }
+
+                    .tax-payer {
+                    margin-top: 5px;
+                    }
+
+                    .bottom-right {
+                    position: absolute;
+                    display: inline-block;
+                    border-left: 1px solid black;
+                    width: 49.9%;
+                    }
+
+                    .bottom-left {
+                    position: relative;
+                    /*float: left;*/
+                    display: inline-block;
+                    border-right: 1px solid black;
+                    width: 49.9%;
+                    }
+
+                    .bottom-left p {
+                    margin: 0;
+                    }
+
+                    .bottom_panel {
+                    display: block;
+                    position: relative;
+                    width: 100%;
+                    }
+
+                    .signature {
+                    padding-top: 90px;
+                    }
+
+                    .bottom-right:nth-of-type(2) {
+                    border-top: 2px solid black;
+                    }
+                </style>
+    </head>
+    <body>
+        <div class="root">
+            <div class="upper-panel">
+                <div class="left upanel-child bottom-border">
+                    <div class="bottom-border">
+                        <p>
+                            <b>Daňov&yacute; doklad</b>
+                        </p>
+                        <h3 class="low-margin">Fakt&uacute;ra č.
+                                        123456</h3>
+                    </div>
+                    <div class="dates">
+                        <p>
+                            <span>D&aacute;tum dodania služby:</span><span class="date-span">21.10.2020</span>
+                        </p>
+                        <p>
+                            <span>D&aacute;tum vystavenia:</span><span class="date-span">21.10.2020</span>
+                        </p>
+                        <p>
+                            <span>D&aacute;tum splatnosti:</span><span class="date-span">21.10.2020</span>
+                        </p>
+                        <br>
+                    </div>
+                    <div>
+                        <p>Forma &uacute;hrady:
+                
+                    Bankov&yacute; prevod
+                </p>
+                        <p>KS:
+                308</p>
+                        <p>VS:
+                123456</p>
+                        <br>
+                    </div>
+                    <p>
+                        <b>Banka:
+                Tatra Banka</b>
+                    </p>
+                    <p>
+                        <b>Č&iacute;slo &uacute;čtu:
+                SK45 1100 0000 0026 1234 5678</b>
+                    </p>
+                </div>
+                <div class="right upanel-child">
+                    <div class="name">
+                        <b>Dod&aacute;vateľ:</b>
+                    </div>
+                    <div class="bottom-border">
+                        <p class="sup-address">
+                            Firma s.r.o.
+                            <br>
+                            Uličn&aacute; 18/7654
+                            <br>
+                            083 12 Bratislava
+                        </p>
+                        <br>
+                        <p>
+                            <b>IČ DPH:
+                    SK2045123456</b>
+                        </p>
+                        <p>
+                            <b>DIČ:
+                    2045123456</b>
+                        </p>
+                    </div>
+                    <div class="name">
+                        <b>Odberateľ:</b>
+                    </div>
+                    <div class="bottom-border">
+                        <br>
+                        <p>
+                            <b>Odberateľ s.r.o.</b>
+                        </p>
+                        <p>Nejak&aacute; ulica 122/5555</p>
+                        <p>
+                            <b>965 04 Trenč&iacute;n</b>
+                        </p>
+                        <br>
+                    </div>
+                    <div class="bottom-border">
+                        <p>
+                            <b>IČO:
+                    98725845&nbsp;&nbsp;&nbsp;
+                    IČ DPH:
+                    SK2098725845</b>
+                        </p>
+                    </div>
+                    <div class="bottom-border">
+                        <p>
+                            <b>DIČ:
+                    2098725845</b>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="middle-panel">
+                <p>
+                    Fakturujem V&aacute;m za služby v mesiaci
+                            
+                Apr&iacute;l
+                2020
+                            podľa pr&iacute;loh
+                            
+                    <br>
+                    <br>
+                    <span><b>čiastku
+                                    6000,14
+                                    &nbsp;EUR</b></span>
+                </p>
+            </div>
+            <div class="bottom_panel">
+                <div class="bottom-left">
+                    <div class="tax-payer bottom-border">
+                        <p>Platca DPH</p>
+                    </div>
+                    <div class="bottom-border">
+                        <p>Fakt&uacute;ru vystavil:
+                                    Zamestnanec</p>
+                    </div>
+                    <div class="signature">
+                        <p>Pečiatka a podpis:</p>
+                    </div>
+                </div>
+                <div class="bottom-right">
+                    <div class="bottom-border">
+                        <p>
+                            <b>Z&aacute;klad bez dph:
+                                        <span class="date-span">5000,12 EUR</span></b>
+                        </p>
+                        <br>
+                    </div>
+                    <div class="bottom-border">
+                        <p>
+                            <b>DPH 20%:
+                                        <span class="date-span">1000,02 EUR</span></b>
+                        </p>
+                        <br>
+                    </div>
+                    <div class="bottom-border">
+                        <p>
+                            <b>Cena vr&aacute;tane DPH:
+                                        <span class="date-span">6000,14 EUR</span></b>
+                        </p>
+                        <br>
+                    </div>
+                    <div class="bottom-border">
+                        <p>
+                            <b>Čiastka k &uacute;hrade:
+                                        <span class="date-span">6000,14 EUR</span></b>
+                        </p>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
