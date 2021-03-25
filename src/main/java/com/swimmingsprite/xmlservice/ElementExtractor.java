@@ -15,20 +15,22 @@ public class ElementExtractor {
     public ElementExtractor(String xml) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
             DocumentBuilder builder = factory.newDocumentBuilder();
-            this.doc = builder.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
-            this.root = this.doc.getDocumentElement();
+            doc = builder.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+            root = doc.getDocumentElement();
         } catch (Exception e) {
-            this.root = null;
+            root = null;
         }
     }
 
-    public Element getRootElement() {
-        return root;
+    public Document getDocument() {
+        return doc;
     }
 
+
     public String getNamespace() {
-        return root.getAttribute("xmlns");
+        return root != null ? root.getAttribute("xmlns") : null;
     }
 
 }
