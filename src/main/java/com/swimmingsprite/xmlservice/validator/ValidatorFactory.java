@@ -25,29 +25,32 @@ public class ValidatorFactory {
     private static final Map<String, String> xsdPaths = new ConcurrentHashMap<>();
 
 
-    @EventListener(ApplicationReadyEvent.class)
+    @EventListener(ApplicationReadyEvent.class) // TODO: 25. 3. 2021 fetch paths from file
     public void putXSDPaths() {
         xsdPaths.put("http://www.example.com/Invoice", xmlStorage+"Invoice.xsd");
     }
 
     /**
+     * Returns proper Validator for given namespace or throws NoSuchElementException.
      * Guarantee to not be null.
+     * @throws NoSuchElementException
+     * @param namespace - unique xmlns namespace
     * */
-    public Validator getInstance(String docType) {
-        Validator validator = getByType(docType);
+    public Validator getInstance(String namespace) {
+        Validator validator = getByType(namespace);
         if (validator != null) return validator;
-        throw new NoSuchElementException(String.format("Validator for type %s can't be found.", docType));
+        throw new NoSuchElementException(String.format("Validator for type %s can't be found.", namespace));
     }
 
-    private Validator getByType(String docType) {
-        Validator validator = validators.get(docType);
+    private Validator getByType(String namespace) {
+        Validator validator = validators.get(namespace);
         //check if validator with this type is in cache map
         if (validator == null) {
-            //if not, check if it's valid type (xsd for docType exist) and create new Validator
-            String xsdPath = xsdPaths.get(docType);
+            //if not, check if it's valid type (xsd for namespace exist) and create new Validator
+            String xsdPath = xsdPaths.get(namespace); // TODO: 25. 3. 2021 fetch from other bean
             if (xsdPath != null) {
                 Validator newValidator = new BasicValidator(xsdPath);
-                validators.put(docType, newValidator);
+                validators.put(namespace, newValidator);
                 return newValidator;
             }
             return null;
