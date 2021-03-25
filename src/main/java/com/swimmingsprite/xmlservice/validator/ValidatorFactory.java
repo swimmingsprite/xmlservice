@@ -33,7 +33,7 @@ public class ValidatorFactory {
     /**
      * Returns proper Validator for given namespace or throws NoSuchElementException.
      * Guarantee to not be null.
-     * @throws NoSuchElementException
+     * @throws NoSuchElementException - if validator for given namespace can't be found
      * @param namespace - unique xmlns namespace
     * */
     public Validator getInstance(String namespace) {
