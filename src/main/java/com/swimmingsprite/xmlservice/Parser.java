@@ -27,6 +27,7 @@ public class Parser {
     }
 
     public <T> T parse(Node node, Class<?> clazz) {
+
         JAXBContext jaxbContext;
         try {
             jaxbContext = JAXBContext.newInstance(clazz);
@@ -36,6 +37,7 @@ public class Parser {
             return object;
         }
         catch (JAXBException e) {
+            e.printStackTrace();
             throw new RuntimeException("Error during xml parsing.", e);
         }
     }
