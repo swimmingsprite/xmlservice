@@ -8,6 +8,6 @@ import java.util.List;
 public interface XmlPropertySupplier {
     List<String> getAllXslVariants(String namespace);
     String getXslVariantPath(String namespace, String variant);
-    String getXsdLocation(String namespace);
-    Class<?> getClass(String namespace);
+    String getXsdPath(String namespace);
+    Class<?> getNamespaceClass(String namespace);
 }
