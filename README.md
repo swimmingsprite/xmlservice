@@ -13,7 +13,7 @@ ___
 start mvnw spring-boot:run
 ```
 
-###Transformácia do HTML
+### Transformácia do HTML
 ___
 **POST request:**
 * **ContentType**: application/xml
@@ -22,7 +22,7 @@ ___
 * **Path**: http://localhost:8080/transformToHtml?variant=SK
 * **Returns:** HTTP 200/HTTP 500, Body: HTML as String
 
-###Transformácia do HTML a odoslanie na email
+### Transformácia do HTML a odoslanie na email
 ___
 > Zatiaľ u niektorých mailbox providerov neprechádzaju e-maily. 
 
@@ -33,7 +33,7 @@ ___
 * **Path**: http://localhost:8080/transformToHtml?variant=SK&email=myemail@example.com
 * **Returns:** HTTP 200/HTTP 500 
 
-###Uloženie do databázy
+### Uloženie do databázy
 ___
 **POST request:**
 * **ContentType**: application/xml
@@ -42,7 +42,7 @@ ___
 * **Path**: http://localhost:8080/transformToHtml?variant=SK&email=myemail@example.com
 * **Returns:** HTTP 200/HTTP 500
 
-###XML Sample
+### XML Sample
 ```
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Document
