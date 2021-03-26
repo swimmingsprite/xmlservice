@@ -32,8 +32,10 @@ public class XmlPropertySupplierImpl implements XmlPropertySupplier {
     public void fetchAllProperties() {
         namespaceXsdPaths = csvFileParser.getXsdPaths(
                 pathConstructor.getCsvPath(CSV_XSL_PATHS_VARIANTS_FILE_NAME));
+
         namespaceClasses = csvFileParser.getNamespaceClasses(
                 pathConstructor.getCsvPath(CSV_NAMESPACE_CLASSES_FILE_NAME));
+
         namespaceVariantsXslPaths = csvFileParser.getXslVariantsPaths(
                 pathConstructor.getCsvPath(CSV_XSL_PATHS_VARIANTS_FILE_NAME));
     }
@@ -62,12 +64,12 @@ public class XmlPropertySupplierImpl implements XmlPropertySupplier {
     }
 
     @Override
-    public String getXsdLocation(String namespace) {
+    public String getXsdPath(String namespace) {
         return namespaceXsdPaths.getOrDefault(namespace, null);
     }
 
     @Override
-    public Class<?> getClass(String namespace) {
+    public Class<?> getNamespaceClass(String namespace) {
         return namespaceClasses.getOrDefault(namespace, null);
     }
 }
