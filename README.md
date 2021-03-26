@@ -1,4 +1,4 @@
-#XML service
+# XML service
 ___
 Táto aplikácia umožňuje nasledujúce operácie s vybranými XML dokumentami:
 * validáciu XML s XSD súborom
