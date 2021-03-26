@@ -2,15 +2,14 @@ package com.swimmingsprite.xmlservice;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 @Component
 public class XmlPropertySupplierImpl implements XmlPropertySupplier {
-    private static final String CSV_XSD_PATHS_CLASSES_FILE_NAME = "XSDPathsAndClasses.csv";
-    private static final String CSV_XSL_PATHS_VARIANTS_FILE_NAME = "XSLPathsAndVariants.csv";
+    private static final String CSV_NAMESPACE_XSD_PATHS_FILE_NAME = "NamespaceXSDPaths.csv";
+    private static final String CSV_NAMESPACE_VARIANTS_XSL_PATHS_FILE_NAME = "NamespaceVariantsXSLPaths.csv";
     private static final String CSV_NAMESPACE_CLASSES_FILE_NAME = "NamespaceClasses.csv";
     private final PathConstructor pathConstructor;
 
@@ -31,13 +30,13 @@ public class XmlPropertySupplierImpl implements XmlPropertySupplier {
     @EventListener(ApplicationReadyEvent.class)
     public void fetchAllProperties() {
         namespaceXsdPaths = csvFileParser.getXsdPaths(
-                pathConstructor.getCsvPath(CSV_XSL_PATHS_VARIANTS_FILE_NAME));
+                pathConstructor.getCsvPath(CSV_NAMESPACE_XSD_PATHS_FILE_NAME));
 
         namespaceClasses = csvFileParser.getNamespaceClasses(
                 pathConstructor.getCsvPath(CSV_NAMESPACE_CLASSES_FILE_NAME));
 
         namespaceVariantsXslPaths = csvFileParser.getXslVariantsPaths(
-                pathConstructor.getCsvPath(CSV_XSL_PATHS_VARIANTS_FILE_NAME));
+                pathConstructor.getCsvPath(CSV_NAMESPACE_VARIANTS_XSL_PATHS_FILE_NAME));
     }
 
 
