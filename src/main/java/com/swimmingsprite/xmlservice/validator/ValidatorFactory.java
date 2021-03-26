@@ -1,14 +1,9 @@
 package com.swimmingsprite.xmlservice.validator;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.boot.context.event.ApplicationStartedEvent;
+import com.swimmingsprite.xmlservice.XmlPropertySupplier;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,18 +11,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @Scope("singleton")
 public class ValidatorFactory {
-    @Value("${xml.resources.path}")
-    private String xmlStorage;
-
     private static final Map<String, Validator> validators = new ConcurrentHashMap<>();
+    private XmlPropertySupplier xmlPropertySupplier;
 
-    // TODO: 24. 3. 2021 fetch from file
-    private static final Map<String, String> xsdPaths = new ConcurrentHashMap<>();
-
-
-    @EventListener(ApplicationReadyEvent.class) // TODO: 25. 3. 2021 fetch paths from file
-    public void putXSDPaths() {
-        xsdPaths.put("http://www.example.com/Invoice", xmlStorage+"Invoice.xsd");
+    public ValidatorFactory(XmlPropertySupplier xmlPropertySupplier) {
+        this.xmlPropertySupplier = xmlPropertySupplier;
     }
 
     /**
@@ -47,7 +35,7 @@ public class ValidatorFactory {
         //check if validator with this type is in cache map
         if (validator == null) {
             //if not, check if it's valid type (xsd for namespace exist) and create new Validator
-            String xsdPath = xsdPaths.get(namespace); // TODO: 25. 3. 2021 fetch from other bean
+            String xsdPath = xmlPropertySupplier.getXsdPath(namespace); // TODO: 25. 3. 2021 fetch from other bean
             if (xsdPath != null) {
                 Validator newValidator = new BasicValidator(xsdPath);
                 validators.put(namespace, newValidator);
