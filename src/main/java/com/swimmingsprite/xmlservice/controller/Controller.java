@@ -45,7 +45,7 @@ public class Controller {
             return new ResponseEntity<>(object, HttpStatus.OK);
         } catch (Exception e) {
             printException(e);
-            return ResponseEntity.status(500).body(e.getMessage());
+            return ResponseEntity.status(400).body(e.getMessage());
         }
     }
 
