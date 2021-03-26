@@ -13,7 +13,11 @@ import java.util.Map;
 
 @Component
 public class CsvFileParserImpl implements CsvFileParser {
+    private PathConstructor pathConstructor;
 
+    public CsvFileParserImpl(PathConstructor pathConstructor) {
+        this.pathConstructor = pathConstructor;
+    }
 
     @Override
     public Map<String, Map<String, String>> getXslVariantsPaths(String csvAbsolutePath) {
@@ -27,13 +31,13 @@ public class CsvFileParserImpl implements CsvFileParser {
             while ((lineInArray = reader.readNext()) != null) {
                 String namespace = lineInArray[0];
                 String variant = lineInArray[1];
-                String xslPath = lineInArray[2];
-                if (namespace == null || variant == null || xslPath == null) continue;
+                String fileName = lineInArray[2];
+                if (namespace == null || variant == null || fileName == null) continue;
                 Map<String, String> innerMap = map.get(namespace);
                 if (innerMap == null) {
-                    map.put(namespace, new HashMap<>(Map.of(variant, xslPath))); // TODO: 26. 3. 2021 construct base path with relative
+                    map.put(namespace, new HashMap<>(Map.of(variant, pathConstructor.getXslPath(fileName))));
                 } else {
-                    innerMap.putIfAbsent(variant, xslPath); // TODO: 26. 3. 2021 construct base path with relative
+                    innerMap.putIfAbsent(variant, pathConstructor.getXslPath(fileName));
                 }
             }
             return map;
@@ -55,9 +59,9 @@ public class CsvFileParserImpl implements CsvFileParser {
             String[] lineInArray;
             while ((lineInArray = reader.readNext()) != null) {
                 String namespace = lineInArray[0];
-                String xsdPath = lineInArray[1];
-                if (namespace == null || xsdPath == null) continue;
-                map.putIfAbsent(namespace, xsdPath); // TODO: 26. 3. 2021 construct base path with relative
+                String fileName = lineInArray[1];
+                if (namespace == null || fileName == null) continue;
+                map.putIfAbsent(namespace, pathConstructor.getXsdPath(fileName));
             }
             return map;
         } catch (FileNotFoundException e) {
