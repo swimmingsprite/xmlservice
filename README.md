@@ -13,14 +13,41 @@ ___
 start mvnw spring-boot:run
 ```
 
-**XML Sample**
+###Transformácia do HTML
+___
+**POST request:**
+* **ContentType**: application/xml
+* **Parameters**: variant (String) 
+* **Body**: XML as String
+* **Path**: http://localhost:8080/transformToHtml?variant=SK
+* **Returns:** HTTP 200/HTTP 500, Body: HTML as String
+
+###Transformácia do HTML a odoslanie na email
+___
+**POST request:**
+* **ContentType**: application/xml
+* **Parameters**: variant (String), email (String) 
+* **Body**: XML as String
+* **Path**: http://localhost:8080/transformToHtml?variant=SK&email=myemail@example.com
+* **Returns:** HTTP 200/HTTP 500 
+
+###Uloženie do databázy
+___
+**POST request:**
+* **ContentType**: application/xml
+* **Parameters**: variant (String), email (String) 
+* **Body**: XML as String
+* **Path**: http://localhost:8080/transformToHtml?variant=SK&email=myemail@example.com
+* **Returns:** HTTP 200/HTTP 500
+
+###XML Sample
 ```
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Document
         xmlns="http://www.example.com/Invoice"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.example.com/Invoice Invoice.xsd"
->
+        xsi:schemaLocation="http://www.example.com/Invoice">
+        
     <GeneralType>Tax document</GeneralType>
     <Type>Invoice</Type>
     <Number>123456</Number>
@@ -87,33 +114,5 @@ start mvnw spring-boot:run
     </Price>
 </Document>
 ```
-
-###Transformácia do HTML
-___
-**POST request:**
-* **ContentType**: application/xml
-* **Parameters**: variant (String) 
-* **Body**: XML as String
-* **Path**: http://localhost:8080/transformToHtml?variant=SK
-* **Returns:** HTTP 200/HTTP 500, Body: HTML as String
-
-###Transformácia do HTML a odoslanie na email
-___
-**POST request:**
-* **ContentType**: application/xml
-* **Parameters**: variant (String), email (String) 
-* **Body**: XML as String
-* **Path**: http://localhost:8080/transformToHtml?variant=SK&email=myemail@example.com
-* **Returns:** HTTP 200/HTTP 500 
-
-###Uloženie do databázy
-___
-**POST request:**
-* **ContentType**: application/xml
-* **Parameters**: variant (String), email (String) 
-* **Body**: XML as String
-* **Path**: http://localhost:8080/transformToHtml?variant=SK&email=myemail@example.com
-* **Returns:** HTTP 200/HTTP 500
-
 
 
