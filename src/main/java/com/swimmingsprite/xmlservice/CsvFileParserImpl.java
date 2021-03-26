@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,9 @@ public class CsvFileParserImpl implements CsvFileParser {
 
     @Override
     public Map<String, Map<String, String>> getXslVariantsPaths(String csvAbsolutePath) {
+        if (csvAbsolutePath == null) {
+            System.err.println("Csv path can't be null. Returning empty map.");
+            return Collections.emptyMap();}
         Map<String, Map<String, String>> map = new HashMap<>();
 
         try (CSVReader reader = new CSVReader(new FileReader(csvAbsolutePath))) {
@@ -27,9 +31,9 @@ public class CsvFileParserImpl implements CsvFileParser {
                 if (namespace == null || variant == null || xslPath == null) continue;
                 Map<String, String> innerMap = map.get(namespace);
                 if (innerMap == null) {
-                    map.put(namespace, new HashMap<>(Map.of(variant, xslPath)));
+                    map.put(namespace, new HashMap<>(Map.of(variant, xslPath))); // TODO: 26. 3. 2021 construct base path with relative
                 } else {
-                    innerMap.putIfAbsent(variant, xslPath);
+                    innerMap.putIfAbsent(variant, xslPath); // TODO: 26. 3. 2021 construct base path with relative
                 }
             }
             return map;
@@ -53,7 +57,7 @@ public class CsvFileParserImpl implements CsvFileParser {
                 String namespace = lineInArray[0];
                 String xsdPath = lineInArray[1];
                 if (namespace == null || xsdPath == null) continue;
-                map.putIfAbsent(namespace, xsdPath);
+                map.putIfAbsent(namespace, xsdPath); // TODO: 26. 3. 2021 construct base path with relative
             }
             return map;
         } catch (FileNotFoundException e) {
