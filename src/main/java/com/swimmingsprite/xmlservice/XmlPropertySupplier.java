@@ -9,4 +9,5 @@ public interface XmlPropertySupplier {
     List<String> getAllXslVariants(String namespace);
     String getXslVariantPath(String namespace, String variant);
     String getXsdLocation(String namespace);
+    Class<?> getClass(String namespace);
 }
