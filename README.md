@@ -13,6 +13,24 @@ ___
 start mvnw spring-boot:run
 ```
 
+### Validácia
+___
+**POST request:**
+* **ContentType**: application/xml
+* **Parameters**: 
+* **Body**: XML as String
+* **Path**: http://localhost:8080/validate
+* **Returns:** HTTP 200/HTTP 400/HTTP 500, Body: null or error message
+
+### Transformácia XML do JSON
+___
+**POST request:**
+* **ContentType**: application/xml
+* **Parameters**: 
+* **Body**: XML as String
+* **Path**: http://localhost:8080/toJSON
+* **Returns:** HTTP 200/HTTP 400, Body: JSON
+
 ### Transformácia do HTML
 ___
 **POST request:**
@@ -24,7 +42,7 @@ ___
 
 ### Transformácia do HTML a odoslanie na email
 ___
-> Zatiaľ u niektorých mailbox providerov neprechádzaju e-maily. 
+> U niektorých mailbox providerov neprechádzaju e-maily. 
 
 **POST request:**
 * **ContentType**: application/xml
@@ -37,9 +55,9 @@ ___
 ___
 **POST request:**
 * **ContentType**: application/xml
-* **Parameters**: variant (String), email (String) 
+* **Parameters**:  
 * **Body**: XML as String
-* **Path**: http://localhost:8080/transformToHtml?variant=SK&email=myemail@example.com
+* **Path**: http://localhost:8080/save
 * **Returns:** HTTP 200/HTTP 500
 
 ### XML Sample
@@ -108,11 +126,11 @@ ___
     </Customer>
 
     <Price>
-        <Base>4666.68</Base>
+        <Base>4225.30</Base>
         <TaxRate>20</TaxRate>
         <Currency>EUR</Currency>
-        <Total>4825.85</Total>
-        <ToPay>4825.22</ToPay>
+        <Total>5070.36</Total>
+        <ToPay>5070.36</ToPay>
     </Price>
 </Document>
 ```
