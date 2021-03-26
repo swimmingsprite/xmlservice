@@ -21,6 +21,8 @@ public class MailService {
         this.mailSender = mailSender;
     }
 
+    // TODO: 26. 3. 2021 generalize sendHtml() text, based on the document type
+
     public void sendHtml(String to, String msg, String subject) {
      /*   SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("swisp@pepisandbox.com");
@@ -54,7 +56,7 @@ public class MailService {
             helper.setSubject(subject);
             helper.setText("V prílohe Vám posielam faktúru. ");
 
-            //helper.addAttachment("Faktura.html", new ByteArrayResource(msg.getBytes(StandardCharsets.UTF_8)));
+            helper.addAttachment("Faktura.html", new ByteArrayResource(msg.getBytes(StandardCharsets.UTF_8)));
             mailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
