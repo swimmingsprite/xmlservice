@@ -1,10 +1,11 @@
 # XML service
-___
+
 Táto aplikácia umožňuje nasledujúce operácie s vybranými XML dokumentami:
 * validáciu XML s XSD súborom
 * transformovanie XML na objekt a jeho uloženie do databázy
 * transformovanie XML na HTML
 * poslať transformovaný dokument na e-mail
+* transformovať XML na JSON
 
 ### Spustenie
 ___
