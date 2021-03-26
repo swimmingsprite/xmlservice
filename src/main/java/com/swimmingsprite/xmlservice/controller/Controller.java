@@ -27,6 +27,30 @@ public class Controller {
         }
     }
 
+    @PostMapping(value = "/validate", consumes = "application/xml")
+    public ResponseEntity<?> validate(@RequestBody String xml) {
+        try {
+            if (service.validate(xml)) return ResponseEntity.ok().build();
+            else {return ResponseEntity.badRequest().build();}
+        } catch (Exception e) {
+            printException(e);
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
+
+    @PostMapping(value = "/toJSON", consumes = "application/xml", produces = "application/json")
+    public ResponseEntity<?> toJSON(@RequestBody String xml) {
+        try {
+            Object object = service.toJSON(xml);
+            return new ResponseEntity<>(object, HttpStatus.OK);
+        } catch (Exception e) {
+            printException(e);
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
+
+
+
     @PostMapping(value = "/transformToHtml", consumes = "application/xml", produces = "text/html")
     public ResponseEntity<String> transformToHtml(@RequestBody String xml,
                                                   @RequestParam("variant") String variant) {

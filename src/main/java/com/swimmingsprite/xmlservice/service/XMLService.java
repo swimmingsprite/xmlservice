@@ -10,6 +10,7 @@ import com.swimmingsprite.xmlservice.repository.InvoiceRepository;
 import com.swimmingsprite.xmlservice.validator.Validator;
 import com.swimmingsprite.xmlservice.validator.ValidatorFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -81,6 +82,35 @@ public class XMLService {
             String html = xmlTransformer.transform(xml, new File(xmlPropertySupplier.getXslVariantPath(namespace, variant)));
             mailService.sendHtml(email, html, "Your transformed HTML");
             return;
+        }
+        System.err.println("validation failed...");
+        throw new RuntimeException(String.format("XML with namespace %s is not valid.", namespace));
+    }
+
+    public boolean validate(String xml) {
+        ElementExtractor elementExtractor = new ElementExtractor(xml);
+        String namespace = elementExtractor.getNamespace();
+        if (namespace == null) throw new NoSuchElementException("Namespace not present.");
+        Class<?> type = xmlPropertySupplier.getNamespaceClass(namespace);
+        if (type == null) throw new RuntimeException("There's no proper pojo class to map for "+namespace);
+        Validator validator = validatorFactory.getInstance(namespace);
+        if (validator.validate(xml)) {
+            return true;
+        }
+        System.err.println("validation failed...");
+        return false;
+
+    }
+
+    public Object toJSON(String xml) {
+        ElementExtractor elementExtractor = new ElementExtractor(xml);
+        String namespace = elementExtractor.getNamespace();
+        if (namespace == null) throw new NoSuchElementException("Namespace not present.");
+        Class<?> type = xmlPropertySupplier.getNamespaceClass(namespace);
+        if (type == null) throw new RuntimeException("There's no proper pojo class to map for "+namespace);
+        Validator validator = validatorFactory.getInstance(namespace);
+        if (validator.validate(xml)) {
+            return parser.parse(elementExtractor.getDocument(), type);
         }
         System.err.println("validation failed...");
         throw new RuntimeException(String.format("XML with namespace %s is not valid.", namespace));
