@@ -5,8 +5,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class XmlPropertySupplierImpl implements XmlPropertySupplier {
@@ -47,12 +48,14 @@ public class XmlPropertySupplierImpl implements XmlPropertySupplier {
             if (defaultCsvPath != null)
                 return !defaultCsvPath.endsWith("/") ? defaultCsvPath+"/" : defaultCsvPath;
             System.err.println("Can't get default csv path");
+            return null;
         }
         else if ("false".equals(env.getProperty("xml.resources.csvFetchFromDefault"))) {
             String customCsvPath = env.getProperty("xml.resources.csvFilesLocation");
             if (customCsvPath != null)
                 return !customCsvPath.endsWith("/") ? customCsvPath+"/" : customCsvPath;
             System.err.println("Can't get custom csv path");
+            return null;
         }
         System.err.println("Can't get csv path. Check if xml.resources.csvFetchFromDefault property is present.");
         return null;
@@ -74,16 +77,26 @@ public class XmlPropertySupplierImpl implements XmlPropertySupplier {
 
     @Override
     public List<String> getAllXslVariants(String namespace) {
-        return null;
+        if (namespaceVariantsXslPaths.get(namespace) != null)
+            return new ArrayList<>(namespaceVariantsXslPaths.get(namespace).values());
+        return Collections.emptyList();
     }
 
     @Override
     public String getXslVariantPath(String namespace, String variant) {
+        if (namespace == null || variant == null) return null;
+        Map<String, String> innerMap = namespaceVariantsXslPaths.get(namespace);
+        if (innerMap != null) return innerMap.get(variant);
         return null;
     }
 
     @Override
     public String getXsdLocation(String namespace) {
-        return null;
+        return namespaceXsdPaths.getOrDefault(namespace, null);
+    }
+
+    @Override
+    public Class<?> getClass(String namespace) {
+        return namespaceClasses.getOrDefault(namespace, null);
     }
 }
