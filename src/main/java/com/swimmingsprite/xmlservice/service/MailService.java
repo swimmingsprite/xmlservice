@@ -54,7 +54,7 @@ public class MailService {
             helper.setSubject(subject);
             helper.setText("V prílohe Vám posielam faktúru. ");
 
-            helper.addAttachment("Faktura.html", new ByteArrayResource(msg.getBytes(StandardCharsets.UTF_8)));
+            //helper.addAttachment("Faktura.html", new ByteArrayResource(msg.getBytes(StandardCharsets.UTF_8)));
             mailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();

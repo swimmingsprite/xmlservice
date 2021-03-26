@@ -24,6 +24,8 @@ ___
 
 ###Transformácia do HTML a odoslanie na email
 ___
+> Zatiaľ u niektorých mailbox providerov neprechádzaju e-maily. 
+
 **POST request:**
 * **ContentType**: application/xml
 * **Parameters**: variant (String), email (String) 
