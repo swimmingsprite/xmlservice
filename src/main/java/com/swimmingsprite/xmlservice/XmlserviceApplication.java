@@ -11,11 +11,7 @@ import java.io.IOException;
 public class XmlserviceApplication {
 
     public static void main(String[] args) throws IOException {
-        System.out.println(Main.class.getClassLoader().getResource("").getPath());
-        System.out.println(System.getProperty("user.dir"));
-        System.out.println(new File(".").getCanonicalPath());
-        //SpringApplication.run(XmlserviceApplication.class, args);
-
+        SpringApplication.run(XmlserviceApplication.class, args);
     }
 
 }
