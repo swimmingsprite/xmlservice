@@ -26,8 +26,6 @@ public class XMLService {
     private final MailService mailService;
 
 
-
-
     public XMLService(ValidatorFactory validatorFactory, Parser parser, ApplicationContext context, XMLTransformer transformer, XmlPropertySupplier xmlPropertySupplier, MailService mailService) {
         this.validatorFactory = validatorFactory;
         this.parser = parser;
@@ -36,6 +34,8 @@ public class XMLService {
         this.xmlPropertySupplier = xmlPropertySupplier;
         this.mailService = mailService;
     }
+
+    // TODO: 26. 3. 2021 Refactor repetitive code
 
     public void save(String xml) {
         ElementExtractor elementExtractor = new ElementExtractor(xml);
