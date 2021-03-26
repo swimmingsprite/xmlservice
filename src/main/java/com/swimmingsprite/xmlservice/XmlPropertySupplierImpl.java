@@ -6,20 +6,18 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 public class XmlPropertySupplierImpl implements XmlPropertySupplier {
-    private static final String CSV_XSD_PATHS_CLASSES_FILE_NAME = "XSDPathsAndClasses.csv" ;
-    private static final String CSV_XSL_PATHS_VARIANTS_FILE_NAME = "XSLPathsAndVariants.csv" ;
-    private static final String CSV_NAMESPACE_CLASSES_FILE_NAME = "NamespaceClasses.csv" ;
-    private final Environment env;
+    private static final String CSV_XSD_PATHS_CLASSES_FILE_NAME = "XSDPathsAndClasses.csv";
+    private static final String CSV_XSL_PATHS_VARIANTS_FILE_NAME = "XSLPathsAndVariants.csv";
+    private static final String CSV_NAMESPACE_CLASSES_FILE_NAME = "NamespaceClasses.csv";
+    private final PathConstructor pathConstructor;
 
 
-    public XmlPropertySupplierImpl(CsvFileParser csvFileParser, Environment env) {
+    public XmlPropertySupplierImpl(CsvFileParser csvFileParser, PathConstructor pathConstructor) {
         this.csvFileParser = csvFileParser;
-        this.env = env;
+        this.pathConstructor = pathConstructor;
     }
 
     private CsvFileParser csvFileParser;
@@ -32,47 +30,20 @@ public class XmlPropertySupplierImpl implements XmlPropertySupplier {
 
     @EventListener(ApplicationReadyEvent.class)
     public void fetchAllProperties() {
-        String csvAbsolutePath = getCsvAbsolutePath();
-        if (csvAbsolutePath != null) {
-            namespaceXsdPaths = csvFileParser.getXsdPaths(csvAbsolutePath+CSV_XSL_PATHS_VARIANTS_FILE_NAME);
-            namespaceClasses = csvFileParser.getNamespaceClasses(csvAbsolutePath+CSV_NAMESPACE_CLASSES_FILE_NAME);
-            namespaceVariantsXslPaths = csvFileParser.getXslVariantsPaths(csvAbsolutePath+CSV_XSL_PATHS_VARIANTS_FILE_NAME);
-        }
-
+        namespaceXsdPaths = csvFileParser.getXsdPaths(
+                pathConstructor.getCsvPath(CSV_XSL_PATHS_VARIANTS_FILE_NAME));
+        namespaceClasses = csvFileParser.getNamespaceClasses(
+                pathConstructor.getCsvPath(CSV_NAMESPACE_CLASSES_FILE_NAME));
+        namespaceVariantsXslPaths = csvFileParser.getXslVariantsPaths(
+                pathConstructor.getCsvPath(CSV_XSL_PATHS_VARIANTS_FILE_NAME));
     }
 
-    private String getCsvAbsolutePath() {
-        if ("true".equals(env.getProperty("xml.resources.csvFetchFromDefault"))) {
-            String defaultCsvPath =
-                    constructPathFromRoot(env.getProperty("xml.resources.csvDefaultFilesRelativePath"));
-            if (defaultCsvPath != null)
-                return !defaultCsvPath.endsWith("/") ? defaultCsvPath+"/" : defaultCsvPath;
-            System.err.println("Can't get default csv path");
-            return null;
-        }
-        else if ("false".equals(env.getProperty("xml.resources.csvFetchFromDefault"))) {
-            String customCsvPath = env.getProperty("xml.resources.csvFilesLocation");
-            if (customCsvPath != null)
-                return !customCsvPath.endsWith("/") ? customCsvPath+"/" : customCsvPath;
-            System.err.println("Can't get custom csv path");
-            return null;
-        }
-        System.err.println("Can't get csv path. Check if xml.resources.csvFetchFromDefault property is present.");
-        return null;
-    }
-
-    private String constructPathFromRoot(String path) {
-        if (path == null) return null;
-        String root = System.getProperty("user.dir").replace("\\", "/");
-        return !path.startsWith("/") ? (root+"/"+path+(!path.endsWith("/") ? "/" : ""))
-                : root+path+(!path.endsWith("/") ? "/" : "");
-    }
 
     /*
-    * namepace xsdPath
-    * namespace className
-    * namespace variant - stylesheetPath
-    * */
+     * namepace xsdPath
+     * namespace className
+     * namespace variant - stylesheetPath
+     * */
 
 
     @Override
