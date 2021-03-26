@@ -35,7 +35,7 @@ public class ValidatorFactory {
         //check if validator with this type is in cache map
         if (validator == null) {
             //if not, check if it's valid type (xsd for namespace exist) and create new Validator
-            String xsdPath = xmlPropertySupplier.getXsdPath(namespace); // TODO: 25. 3. 2021 fetch from other bean
+            String xsdPath = xmlPropertySupplier.getXsdPath(namespace);
             if (xsdPath != null) {
                 Validator newValidator = new BasicValidator(xsdPath);
                 validators.put(namespace, newValidator);
