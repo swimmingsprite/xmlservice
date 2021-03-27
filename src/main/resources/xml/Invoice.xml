@@ -61,7 +61,7 @@
     </Customer>
 
     <Price>
-        <Base>5000.1234456</Base>
+        <Base>5000.12</Base>
         <TaxRate>20</TaxRate>
         <Currency>EUR</Currency>
         <Total>6000.14</Total>

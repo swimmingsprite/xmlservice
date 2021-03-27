@@ -1,1 +1,3 @@
 http://www.example.com/Invoice,SK,SK-Invoice.xsl
+http://www.example.com/Invoice,EN,EN-Invoice.xsl
+http://www.example.com/Invoice,CZ,CZ-Invoice.xsl
