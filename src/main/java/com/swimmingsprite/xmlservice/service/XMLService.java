@@ -1,14 +1,12 @@
 package com.swimmingsprite.xmlservice.service;
 
-import com.swimmingsprite.xmlservice.ElementExtractor;
-import com.swimmingsprite.xmlservice.Parser;
-import com.swimmingsprite.xmlservice.XMLTransformer;
-import com.swimmingsprite.xmlservice.XmlPropertySupplier;
+import com.swimmingsprite.xmlservice.*;
 import com.swimmingsprite.xmlservice.entity.invoice.DocumentType;
 import com.swimmingsprite.xmlservice.repository.GeneralRepository;
 import com.swimmingsprite.xmlservice.repository.InvoiceRepository;
 import com.swimmingsprite.xmlservice.validator.Validator;
 import com.swimmingsprite.xmlservice.validator.ValidatorFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,6 +22,9 @@ public class XMLService {
     private final XMLTransformer xmlTransformer;
     private final XmlPropertySupplier xmlPropertySupplier;
     private final MailService mailService;
+
+    @Autowired
+    PdfTransformer pdfTransformer;
 
 
     public XMLService(ValidatorFactory validatorFactory, Parser parser, ApplicationContext context, XMLTransformer transformer, XmlPropertySupplier xmlPropertySupplier, MailService mailService) {
@@ -80,7 +81,10 @@ public class XMLService {
         Validator validator = validatorFactory.getInstance(namespace);
         if (validator.validate(xml)) {
             String html = xmlTransformer.transform(xml, new File(xmlPropertySupplier.getXslVariantPath(namespace, variant)));
-            mailService.sendHtml(email, html, "Your transformed HTML");
+//            mailService.sendHtml(email, html, "Your transformed HTML");
+            byte[] pdf = pdfTransformer.convert(html);
+//            mailService.sendPdf(email, html, "Your transformed HTML");
+            mailService.sendPdf(email, pdf, "Your transformed HTML");
             return;
         }
         System.err.println("validation failed...");
