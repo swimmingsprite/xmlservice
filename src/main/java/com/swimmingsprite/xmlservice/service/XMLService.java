@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.NoSuchElementException;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 @Service
 public class XMLService {
@@ -39,6 +42,7 @@ public class XMLService {
     // TODO: 26. 3. 2021 Refactor repetitive code
 
     public void save(String xml) {
+        /*VOID 2E*/
         ElementExtractor elementExtractor = new ElementExtractor(xml);
         String namespace = elementExtractor.getNamespace();
         if (namespace == null) throw new NoSuchElementException("Namespace not present.");
@@ -46,7 +50,6 @@ public class XMLService {
         if (type == null) throw new RuntimeException("There's no proper pojo class to map for "+namespace);
         Validator validator = validatorFactory.getInstance(namespace);
         if (validator.validate(xml)) {
-//            Object object = parser.parse(xml, type);
             Object object = parser.parse(elementExtractor.getDocument(), type);
             getRepository(type).save(object);
             return;
@@ -56,6 +59,7 @@ public class XMLService {
     }
 
     public String transformToHTML(String xml, String variant) {
+        /*STRING 1*/
         ElementExtractor elementExtractor = new ElementExtractor(xml);
         String namespace = elementExtractor.getNamespace();
         if (namespace == null) throw new NoSuchElementException("Namespace not present.");
@@ -74,6 +78,23 @@ public class XMLService {
     }
 
     public void transformToHTMLAndSend(String xml, String variant, String email) {
+        /*VOID 1*/
+        ElementExtractor elementExtractor = new ElementExtractor(xml);
+        String namespace = elementExtractor.getNamespace();
+        if (namespace == null) throw new NoSuchElementException("Namespace not present.");
+
+        Validator validator = validatorFactory.getInstance(namespace);
+        if (validator.validate(xml)) {
+            String html = xmlTransformer.transform(xml, new File(xmlPropertySupplier.getXslVariantPath(namespace, variant)));
+            mailService.sendHtml(email, html, "Your transformed HTML");
+            return;
+        }
+        System.err.println("validation failed...");
+        throw new RuntimeException(String.format("XML with namespace %s is not valid.", namespace));
+    }
+
+    public void transformToPdfAndSend(String xml, String variant, String email) {
+        /*VOID 1*/
         ElementExtractor elementExtractor = new ElementExtractor(xml);
         String namespace = elementExtractor.getNamespace();
         if (namespace == null) throw new NoSuchElementException("Namespace not present.");
@@ -83,7 +104,6 @@ public class XMLService {
             String html = xmlTransformer.transform(xml, new File(xmlPropertySupplier.getXslVariantPath(namespace, variant)));
 //            mailService.sendHtml(email, html, "Your transformed HTML");
             byte[] pdf = pdfTransformer.convert(html);
-//            mailService.sendPdf(email, html, "Your transformed HTML");
             mailService.sendPdf(email, pdf, "Your transformed HTML");
             return;
         }
@@ -92,6 +112,7 @@ public class XMLService {
     }
 
     public boolean validate(String xml) {
+        /*BOOLEAN 2N*/
         ElementExtractor elementExtractor = new ElementExtractor(xml);
         String namespace = elementExtractor.getNamespace();
         if (namespace == null) throw new NoSuchElementException("Namespace not present.");
@@ -107,6 +128,11 @@ public class XMLService {
     }
 
     public Object toJSON(String xml) {
+        return validateAndDoUsingClassObj(xml,
+                (type, elementExtractor) -> parser.parse(elementExtractor.getDocument(), type) );
+    }
+
+    public <V> V validateAndDoUsingClassObj(String xml, BiFunction<Class<?>,ElementExtractor,V> biFunction) {
         ElementExtractor elementExtractor = new ElementExtractor(xml);
         String namespace = elementExtractor.getNamespace();
         if (namespace == null) throw new NoSuchElementException("Namespace not present.");
@@ -114,9 +140,13 @@ public class XMLService {
         if (type == null) throw new RuntimeException("There's no proper pojo class to map for "+namespace);
         Validator validator = validatorFactory.getInstance(namespace);
         if (validator.validate(xml)) {
-            return parser.parse(elementExtractor.getDocument(), type);
+            return biFunction.apply(type, elementExtractor);
         }
         System.err.println("validation failed...");
         throw new RuntimeException(String.format("XML with namespace %s is not valid.", namespace));
+    }
+
+    public <V> V validateAndDo(String xml, String namespace, BiFunction<String, String, V> biFunction) {
+
     }
 }
