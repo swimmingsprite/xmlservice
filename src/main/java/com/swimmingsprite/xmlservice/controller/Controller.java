@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Email;
-import java.util.Optional;
 
 @RestController
 public class Controller {
@@ -55,7 +54,7 @@ public class Controller {
     public ResponseEntity<String> transformToHtml(@RequestBody String xml,
                                                   @RequestParam("variant") String variant) {
         try {
-            String html = service.transformToHTML(xml, variant);
+            String html = service.transformToHtml(xml, variant);
             return new ResponseEntity<>(html, HttpStatus.OK);
         } catch (Exception e) {
             printException(e);
@@ -69,7 +68,21 @@ public class Controller {
             @RequestParam("variant") String variant,
             @Email @RequestParam("email") String email) {
         try {
-            service.transformToHTMLAndSend(xml, variant, email);
+            service.transformToHtmlAndSend(xml, variant, email);
+            return ResponseEntity.ok(null);
+        } catch (Exception e) {
+            printException(e);
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    @PostMapping(value = "/transformToPdfAndSend", consumes = "application/xml", produces = "text/html")
+    public ResponseEntity<String> transformToPdfAndSend(
+            @RequestBody String xml,
+            @RequestParam("variant") String variant,
+            @Email @RequestParam("email") String email) {
+        try {
+            service.transformToPdfAndSend(xml, variant, email);
             return ResponseEntity.ok(null);
         } catch (Exception e) {
             printException(e);
