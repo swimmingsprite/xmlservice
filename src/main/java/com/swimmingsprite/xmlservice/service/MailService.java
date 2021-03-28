@@ -1,16 +1,12 @@
 package com.swimmingsprite.xmlservice.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 
 @Component
@@ -21,9 +17,8 @@ public class MailService {
         this.mailSender = mailSender;
     }
 
-    // TODO: 26. 3. 2021 generalize sendHtml() text, based on the document type
-
-    public void sendHtml(String to, String html, String subject) {
+    // TODO: 29. 3. 2021 REFACTOR parameters to single object
+    public void sendWithAttachment(String to, byte[] attachment, String attName, String msg, String subject) {
      /*   SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("swisp@pepisandbox.com");
         message.setTo(to);
@@ -54,9 +49,9 @@ public class MailService {
             helper.setFrom("swisp@pepisandbox.com");
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText("V prílohe Vám posielam faktúru. ");
+            helper.setText(msg);
 
-            helper.addAttachment("Faktura.html", new ByteArrayResource(html.getBytes(StandardCharsets.UTF_8)));
+            helper.addAttachment(attName, new ByteArrayResource(attachment));
             mailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -64,20 +59,4 @@ public class MailService {
         }
     }
 
-    public void sendPdf(String to, byte[] pdfByteArr, String subject) {
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom("swisp@pepisandbox.com");
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setText("V prílohe Vám posielam faktúru. ");
-
-            helper.addAttachment("Faktura.pdf", new ByteArrayResource(pdfByteArr));
-            mailSender.send(message);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
 }
