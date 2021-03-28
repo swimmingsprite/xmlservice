@@ -8,14 +8,11 @@ import com.swimmingsprite.xmlservice.validator.Validator;
 import com.swimmingsprite.xmlservice.validator.ValidatorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.NoSuchElementException;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 @Service
 public class XMLService {
@@ -42,12 +39,9 @@ public class XMLService {
     // TODO: 26. 3. 2021 Refactor repetitive code
 
     public void save(String xml) {
-        /*VOID 2E*/
         ElementExtractor elementExtractor = new ElementExtractor(xml);
-        String namespace = elementExtractor.getNamespace();
-        if (namespace == null) throw new NoSuchElementException("Namespace not present.");
-        Class<?> type = xmlPropertySupplier.getNamespaceClass(namespace);
-        if (type == null) throw new RuntimeException("There's no proper pojo class to map for "+namespace);
+        String namespace = getNamespace(elementExtractor);
+        Class<?> type = getNamespaceClass(namespace);
         Validator validator = validatorFactory.getInstance(namespace);
         if (validator.validate(xml)) {
             Object object = parser.parse(elementExtractor.getDocument(), type);
@@ -55,69 +49,59 @@ public class XMLService {
             return;
         }
         System.err.println("validation failed...");
-        throw new RuntimeException(String.format("XML with namespace %s is not valid.", namespace));
-    }
+        throw new RuntimeException(String.format("XML with namespace %s is not valid.", namespace));    }
 
-    public String transformToHTML(String xml, String variant) {
-        /*STRING 1*/
+    public String transformToHtml(String xml, String variant) {
         ElementExtractor elementExtractor = new ElementExtractor(xml);
-        String namespace = elementExtractor.getNamespace();
-        if (namespace == null) throw new NoSuchElementException("Namespace not present.");
+        String namespace = getNamespace(elementExtractor);
 
         Validator validator = validatorFactory.getInstance(namespace);
         if (validator.validate(xml)) {
             return xmlTransformer.transform(xml, new File(xmlPropertySupplier.getXslVariantPath(namespace, variant)));
         }
         System.err.println("validation failed...");
-        throw new RuntimeException(String.format("XML with namespace %s is not valid.", namespace));
-    }
+        throw new RuntimeException(String.format("XML with namespace %s is not valid.", namespace));    }
 
     private GeneralRepository getRepository(Class<?> clazz) {
         if (clazz.equals(DocumentType.class)) return context.getBean(InvoiceRepository.class);
         throw new RuntimeException("Failed to get proper repository.");
     }
 
-    public void transformToHTMLAndSend(String xml, String variant, String email) {
-        /*VOID 1*/
+    public void transformToHtmlAndSend(String xml, String variant, String email) {
         ElementExtractor elementExtractor = new ElementExtractor(xml);
-        String namespace = elementExtractor.getNamespace();
-        if (namespace == null) throw new NoSuchElementException("Namespace not present.");
+        String namespace = getNamespace(elementExtractor);
 
         Validator validator = validatorFactory.getInstance(namespace);
         if (validator.validate(xml)) {
             String html = xmlTransformer.transform(xml, new File(xmlPropertySupplier.getXslVariantPath(namespace, variant)));
-            mailService.sendHtml(email, html, "Your transformed HTML");
+            // TODO: 29. 3. 2021 fetch email properties from another bean and refactor to one object as parameter
+            mailService.sendWithAttachment(email, html.getBytes(StandardCharsets.UTF_8),
+                    "Document.pdf", "Hello, document is attached.", "Your transformed PDF");
             return;
         }
         System.err.println("validation failed...");
-        throw new RuntimeException(String.format("XML with namespace %s is not valid.", namespace));
-    }
+        throw new RuntimeException(String.format("XML with namespace %s is not valid.", namespace));    }
 
     public void transformToPdfAndSend(String xml, String variant, String email) {
-        /*VOID 1*/
         ElementExtractor elementExtractor = new ElementExtractor(xml);
-        String namespace = elementExtractor.getNamespace();
-        if (namespace == null) throw new NoSuchElementException("Namespace not present.");
+        String namespace = getNamespace(elementExtractor);
 
         Validator validator = validatorFactory.getInstance(namespace);
         if (validator.validate(xml)) {
             String html = xmlTransformer.transform(xml, new File(xmlPropertySupplier.getXslVariantPath(namespace, variant)));
-//            mailService.sendHtml(email, html, "Your transformed HTML");
             byte[] pdf = pdfTransformer.convert(html);
-            mailService.sendPdf(email, pdf, "Your transformed HTML");
+            // TODO: 29. 3. 2021 fetch email properties from another bean and refactor to one object as parameter
+            mailService.sendWithAttachment(email, pdf, "Document.pdf",
+                    "Hello, document is attached.", "Your transformed PDF");
             return;
         }
         System.err.println("validation failed...");
-        throw new RuntimeException(String.format("XML with namespace %s is not valid.", namespace));
-    }
+        throw new RuntimeException(String.format("XML with namespace %s is not valid.", namespace));    }
 
     public boolean validate(String xml) {
-        /*BOOLEAN 2N*/
         ElementExtractor elementExtractor = new ElementExtractor(xml);
-        String namespace = elementExtractor.getNamespace();
-        if (namespace == null) throw new NoSuchElementException("Namespace not present.");
-        Class<?> type = xmlPropertySupplier.getNamespaceClass(namespace);
-        if (type == null) throw new RuntimeException("There's no proper pojo class to map for "+namespace);
+        String namespace = getNamespace(elementExtractor);
+        Class<?> type = getNamespaceClass(namespace);
         Validator validator = validatorFactory.getInstance(namespace);
         if (validator.validate(xml)) {
             return true;
@@ -128,25 +112,27 @@ public class XMLService {
     }
 
     public Object toJSON(String xml) {
-        return validateAndDoUsingClassObj(xml,
-                (type, elementExtractor) -> parser.parse(elementExtractor.getDocument(), type) );
-    }
-
-    public <V> V validateAndDoUsingClassObj(String xml, BiFunction<Class<?>,ElementExtractor,V> biFunction) {
         ElementExtractor elementExtractor = new ElementExtractor(xml);
-        String namespace = elementExtractor.getNamespace();
-        if (namespace == null) throw new NoSuchElementException("Namespace not present.");
-        Class<?> type = xmlPropertySupplier.getNamespaceClass(namespace);
-        if (type == null) throw new RuntimeException("There's no proper pojo class to map for "+namespace);
+        String namespace = getNamespace(elementExtractor);
+
+        Class<?> type = getNamespaceClass(namespace);
         Validator validator = validatorFactory.getInstance(namespace);
         if (validator.validate(xml)) {
-            return biFunction.apply(type, elementExtractor);
+            return parser.parse(elementExtractor.getDocument(), type);
         }
         System.err.println("validation failed...");
         throw new RuntimeException(String.format("XML with namespace %s is not valid.", namespace));
     }
 
-    public <V> V validateAndDo(String xml, String namespace, BiFunction<String, String, V> biFunction) {
+    private Class<?> getNamespaceClass(String namespace) {
+        Class<?> type = xmlPropertySupplier.getNamespaceClass(namespace);
+        if (type == null) throw new RuntimeException("There's no proper pojo class to map for " + namespace);
+        return type;
+    }
 
+    private String getNamespace(ElementExtractor elementExtractor) {
+        String namespace = elementExtractor.getNamespace();
+        if (namespace == null) throw new NoSuchElementException("Namespace not present.");
+        return namespace;
     }
 }
